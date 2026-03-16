@@ -1,0 +1,80 @@
+import os
+import time
+import sys
+import webbrowser
+
+# Cores padrão Red Team
+RED = '\033[1;31m'
+WHITE = '\033[1;37m'
+RESET = '\033[0m'
+
+def banner():
+    os.system('clear')
+    print(f"""{RED}
+    ██████╗ ██████╗  █████╗ ███████╗██╗██╗     
+    ██╔══██╗██╔══██╗██╔══██╗╚══███╔╝██║██║     
+    ██████╔╝██████╔╝███████║  ███╔╝ ██║██║     
+    ██╔══██╗██╔══██╗██╔══██║ ███╔╝  ██║██║     
+    ██████╔╝██   ██╗██║  ██║███████╗██║███████╗
+    {WHITE}CORE OSINT ENGINE - PRIVACY BREACH FINDER{RED}
+    """)
+
+def deep_search(phone):
+    """
+    Simula e gera Dorks reais para encontrar dados escondidos no Google.
+    """
+    # Dorks famosas para encontrar telefones em arquivos expostos
+    dorks = [
+        f'site:*.br "{phone}"',
+        f'filetype:pdf "{phone}"',
+        f'filetype:xlsx "{phone}"',
+        f'intitle:index.of "contatos" "{phone}"',
+        f'"{phone}" "CPF"',
+        f'"{phone}" "email"'
+    ]
+    
+    print(f"{RED}[!] Gerando Dorks de busca profunda...")
+    time.sleep(1)
+    
+    for i, dork in enumerate(dorks):
+        print(f"{WHITE}[{i+1}] Dork Gerada: {RED}{dork}")
+    
+    confirm = input(f"\n{WHITE}Deseja abrir todas as buscas no navegador? (s/n): ")
+    if confirm.lower() == 's':
+        for dork in dorks:
+            url = f"https://www.google.com/search?q={dork}"
+            # No Kali, isso abre o Firefox
+            webbrowser.open(url)
+            time.sleep(0.5)
+
+def main():
+    banner()
+    # Painel de Login Profissional
+    print(f"{RED}┌──(Sistema de Autenticação)")
+    user = input(f"└─ # USER: {WHITE}")
+    pw = input(f"{RED}   # PASS: {WHITE}")
+
+    if user == "admin" and pw == "root":
+        print(f"\n{RED}[+] ACESSO CONCEDIDO.")
+        time.sleep(1)
+        
+        while True:
+            banner()
+            target = input(f"{RED}┌──(root@brazil-osint)-[digite_o_alvo]\n└─> {WHITE}")
+            
+            # Limpeza rápida
+            clean_num = "".join(filter(str.isdigit, target))
+            
+            print(f"\n{RED}[*] Cruzando dados de fontes públicas...")
+            # Aqui entraria a lógica de requests para APIs reais
+            time.sleep(2)
+            
+            deep_search(clean_num)
+            
+            cont = input(f"\n{RED}Nova consulta? (s/n): ")
+            if cont.lower() != 's': break
+    else:
+        print(f"{RED}[!] Falha no sistema.")
+
+if __name__ == "__main__":
+    main()
