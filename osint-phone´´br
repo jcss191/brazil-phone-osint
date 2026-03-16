@@ -20,20 +20,22 @@ def banner():
     """)
 
 def deep_search(phone):
-    """
-    Simula e gera Dorks reais para encontrar dados escondidos no Google.
-    """
-    # Dorks famosas para encontrar telefones em arquivos expostos
+    # Criando variações
+    ddd = phone[:2]
+    corpo = phone[2:]
+    ext = f"{corpo[:5]}-{corpo[5:]}" # Formato 99999-9999
+    
     dorks = [
-        f'site:*.br "{phone}"',
-        f'filetype:pdf "{phone}"',
-        f'filetype:xlsx "{phone}"',
-        f'intitle:index.of "contatos" "{phone}"',
-        f'"{phone}" "CPF"',
-        f'"{phone}" "email"'
+        f'"{phone}"',                      # Formato colado
+        f'"{ddd} {ext}"',                  # Formato (11) 99999-9999
+        f'"{ddd}{ext}"',                   # Formato 1199999-9999
+        f'filetype:pdf "{ddd}" "{corpo}"', # Busca em PDFs de cadastros
+        f'site:facebook.com "{ddd}" "{corpo}"',
+        f'site:instagram.com "{ddd}" "{corpo}"',
+        f'intitle:index.of "lista" "{ddd}"'
     ]
     
-    print(f"{RED}[!] Gerando Dorks de busca profunda...")
+    print(f"{RED}[!] Expandindo busca para {len(dorks)} variações...")
     time.sleep(1)
     
     for i, dork in enumerate(dorks):
